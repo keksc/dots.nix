@@ -36,7 +36,6 @@
     musikcube # music player
 
     wl-clipboard
-    font-awesome
 
     unzip
 
@@ -46,8 +45,6 @@
     ripgrep
 
     android-studio
-
-    nerd-fonts.jetbrains-mono
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
