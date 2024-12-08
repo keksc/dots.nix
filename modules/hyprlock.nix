@@ -27,10 +27,11 @@
           fail_color = "rgba(ff6633ee) rgba(ff0066ee) 40deg";
           font_color = "rgb(143, 143, 143)";
           fade_on_empty = false;
-          rounding = 15;
+          rounding = 30;
           position = "0, -200";
           halign = "center";
           valign = "center";
+          placeholder_text = "<span foreground=\"##cdd6f4\">Password...</span>";
         }
       ];
       label = [
@@ -39,7 +40,7 @@
           color = "#cdd6f4";
           font_size = 14;
           font_family = "JetBrains Mono";
-          position = "0, -10";
+          position = "0, -450";
           halign = "center";
           valign = "top";
         }
@@ -48,7 +49,7 @@
         {
           path = "${./assets/thecat.png}";
           size = 150;
-          rounding = 0;
+          rounding = 100;
           position = "0, 200";
           halign = "center";
           valign = "center";

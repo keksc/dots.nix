@@ -102,8 +102,8 @@
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-        "col.active_border" = "rgb(ab1eb3) rgb(de26c8) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        "col.active_border" = "rgba(cdd6f4aa) rgba(#a11c0faa) 45deg"; # "rgb(ab1eb3) rgb(de26c8) 45deg";
+        "col.inactive_border" = "rgba(#090000aa)"; # "rgba(595959aa)");
       };
       windowrulev2 = [
         "opacity 0.90 0.90,class:^(firefox)$"
