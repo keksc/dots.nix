@@ -52,7 +52,9 @@
           "$mod, S, togglespecialworkspace, magic"
           "$mod SHIFT, S, movetoworkspace, special:magic"
           ", PRINT, exec, hyprshot --clipboard-only -m region -s -z"
-          ", mouse:282, exec, pw-play ${./assets/depth.wav}"
+          ", mouse:277, exec, pw-play ${./assets/depth.wav}"
+          ", mouse:279, workspace, -1"
+          ", mouse:280, workspace, +1"
         ]
         ++ (
           # workspaces

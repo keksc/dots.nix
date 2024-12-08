@@ -21,13 +21,15 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    brightnessctl
     vesktop
     blender
+    davinci-resolve
+    ffmpeg
+
+    brightnessctl
     wget2
 
     wf-recorder
-
     hyprpicker
     hyprshot
 
