@@ -52,6 +52,7 @@
           "$mod, S, togglespecialworkspace, magic"
           "$mod SHIFT, S, movetoworkspace, special:magic"
           ", PRINT, exec, hyprshot --clipboard-only -m region -s -z"
+          ", mouse:282, exec, pw-play ${./assets/depth.wav}"
         ]
         ++ (
           # workspaces
@@ -139,7 +140,6 @@
         "blur,notifications"
         "ignorezero,notifications"
         "blur,logout_dialog"
-
       ];
     };
   };

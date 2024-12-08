@@ -3,32 +3,55 @@
     enable = true;
     settings = {
       general = {
-        #disable_loading_bar = true;
+        no_fade_in = true;
+        no_fade_out = true;
+        grace = 0;
         hide_cursor = true;
-        no_fade_in = false;
+        disable_loading_bar = true;
       };
 
       background = [
         {
-          path = "screenshot";
-          blur_passes = 3;
-          blur_size = 8;
+          path = "${./assets/yandere.png}";
+          color = "rgba(25, 20, 20, 1.0)";
+          blur_passes = 2;
         }
       ];
 
       input-field = [
         {
-          size = "200, 50";
-          position = "0, -80";
-          monitor = "";
-          dots_center = true;
+          outline_thickness = 3;
+          inner_color = "rgba(0, 0, 0, 0.0)"; # no fill
+          outer_color = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+          check_color = "rgba(00ff99ee) rgba(ff6633ee) 120deg";
+          fail_color = "rgba(ff6633ee) rgba(ff0066ee) 40deg";
+          font_color = "rgb(143, 143, 143)";
           fade_on_empty = false;
-          font_color = "rgb(202, 211, 245)";
-          inner_color = "rgb(91, 96, 120)";
-          outer_color = "rgb(24, 25, 38)";
-          outline_thickness = 5;
-          placeholder_text = "<span foreground=\"##cad3f5\">Password...</span>";
-          shadow_passes = 2;
+          rounding = 15;
+          position = "0, -200";
+          halign = "center";
+          valign = "center";
+        }
+      ];
+      label = [
+        {
+          text = "cmd[update:1000] echo \"$(whoami)\"";
+          color = "#cdd6f4";
+          font_size = 14;
+          font_family = "JetBrains Mono";
+          position = "0, -10";
+          halign = "center";
+          valign = "top";
+        }
+      ];
+      image = [
+        {
+          path = "${./assets/thecat.png}";
+          size = 150;
+          rounding = 0;
+          position = "0, 200";
+          halign = "center";
+          valign = "center";
         }
       ];
     };

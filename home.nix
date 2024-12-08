@@ -45,6 +45,23 @@
     ripgrep
 
     android-studio
+    unityhub
+
+    # dev pkgs i use most
+    vulkan-loader
+    vulkan-validation-layers
+    vulkan-tools
+    vulkan-headers
+    glfw
+    fmt
+    tinyobjloader
+    glm
+    cmake
+    glslang
+    openal
+    clang-tools
+    cmake-language-server
+    stb
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -60,7 +77,7 @@
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+    #"assets".source = ./assets;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -89,7 +106,19 @@
     # EDITOR = "emacs";
   };
 
-  imports = [ ./modules/dunst.nix ./modules/git.nix ./modules/fish.nix ./modules/gtk.nix ./modules/wofi.nix ./modules/kitty.nix ./modules/hyprland.nix ./modules/waybar.nix ./modules/wlogout.nix ./modules/hyprlock.nix ./modules/hyprpaper.nix ];
+  imports = [
+    ./modules/dunst.nix
+    ./modules/git.nix
+    ./modules/fish.nix
+    ./modules/gtk.nix
+    ./modules/wofi.nix
+    ./modules/kitty.nix
+    ./modules/hyprland.nix
+    ./modules/waybar.nix
+    ./modules/wlogout.nix
+    ./modules/hyprlock.nix
+    ./modules/hyprpaper.nix
+  ];
 
   xdg = {
     enable = true;
