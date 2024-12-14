@@ -52,7 +52,6 @@
           "$mod, S, togglespecialworkspace, magic"
           "$mod SHIFT, S, movetoworkspace, special:magic"
           ", PRINT, exec, hyprshot --clipboard-only -m region -s -z"
-          ", mouse:277, exec, pw-play ${./assets/depth.wav}"
           ", mouse:279, workspace, -1"
           ", mouse:280, workspace, +1"
         ]
@@ -102,8 +101,8 @@
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-        "col.active_border" = "rgba(cdd6f4aa) rgba(#a11c0faa) 45deg"; # "rgb(ab1eb3) rgb(de26c8) 45deg";
-        "col.inactive_border" = "rgba(#090000aa)"; # "rgba(595959aa)");
+        "col.active_border" = "rgb(cdd6f4) rgb(6b140a) 45deg"; # "rgb(ab1eb3) rgb(de26c8) 45deg";
+        "col.inactive_border" = "rgb(090000)"; # "rgba(595959aa)");
       };
       windowrulev2 = [
         "opacity 0.90 0.90,class:^(firefox)$"
