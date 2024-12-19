@@ -45,7 +45,7 @@
           "$mod, M, exit,"
           "$mod, V, togglefloating,"
           "$mod, R, exec, wofi"
-          "$mod, F, exec, firefox"
+          "$mod, F, exec, zen"
           "$mod, P, exec, hyprpicker -a -f rgb"
           "$mod SHIFT, P, exec, hyprpicker -a -f hex"
           "$mod SHIFT, F, fullscreen,"
@@ -105,7 +105,7 @@
         "col.inactive_border" = "rgb(090000)"; # "rgba(595959aa)");
       };
       windowrulev2 = [
-        "opacity 0.90 0.90,class:^(firefox)$"
+        "opacity 0.90 0.90,class:^(zen-beta)$"
         "opacity 0.90 0.90,class:^(obsidian)$"
         "opacity 0.80 0.80,class:^(kitty)$"
         "opacity 0.80 0.80,class:^(qt5ct)$"
@@ -120,9 +120,6 @@
         "opacity 0.80 0.80,class:^(com.obsproject.Studio)$"
         "opacity 0.80 0.80,class:^(vesktop)$"
 
-        "float,title:^(About Mozilla Firefox)$"
-        "float,class:^(firefox)$,title:^(Picture-in-Picture)$"
-        "float,class:^(firefox)$,title:^(Library)$"
         "float,class:^(kitty)$,title:^(btop)$"
         "float,class:^(vlc)$"
         "float,class:^(qt5ct)$"

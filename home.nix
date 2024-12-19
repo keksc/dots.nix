@@ -41,13 +41,14 @@
 
     unzip
 
+    android-studio
+
+    helvum
+
     # nvim
     nixfmt-rfc-style
     lua-language-server
     ripgrep
-
-    android-studio
-    unityhub
 
     # dev pkgs i use most
     vulkan-loader
@@ -64,6 +65,9 @@
     clang-tools
     cmake-language-server
     stb
+    gnumake
+    gcc
+    yarn # for excalidraw, temporary
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -133,10 +137,6 @@
     };
   };
   programs.btop.enable = true;
-
-  programs.firefox = {
-    enable = true;
-  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

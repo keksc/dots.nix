@@ -13,6 +13,12 @@
       # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+
+      # optional, but recommended so it shares system libraries, and improves startup time
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +27,7 @@
       nixpkgs,
       home-manager,
       lanzaboote,
+      zen-browser,
       ...
     }:
     let
@@ -43,6 +50,7 @@
                 environment.systemPackages = [
                   # For debugging and troubleshooting Secure Boot.
                   pkgs.sbctl
+                  zen-browser.packages.${pkgs.system}.default
                 ];
 
                 # Lanzaboote currently replaces the systemd-boot module.
