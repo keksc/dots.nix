@@ -19,6 +19,7 @@
       # optional, but recommended so it shares system libraries, and improves startup time
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -38,34 +39,29 @@
     in
     {
       nixosConfigurations = {
-        iso = lib.nixosSystem {
+        iso = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
           modules = [
-            "${nixos}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            ./configuration.nix
-            lanzaboote.nixosModules.lanzaboote
+            ./configuration-iso.nix
             (
-              { pkgs, lib, ... }:
+              { pkgs, modulesPath, ... }:
               {
+                imports = [
+                  "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
 
-                environment.systemPackages = [
-                  # For debugging and troubleshooting Secure Boot.
-                  pkgs.sbctl
-                  zen-browser.packages.${pkgs.system}.default
+                  home-manager.nixosModules.home-manager
                 ];
 
-                # Lanzaboote currently replaces the systemd-boot module.
-                # This setting is usually set to true in configuration.nix
-                # generated at installation time. So we force it to false
-                # for now.
-                boot.loader.systemd-boot.enable = lib.mkForce false;
+                environment.systemPackages = [ pkgs.neovim ];
 
-                boot.lanzaboote = {
-                  enable = true;
-                  pkiBundle = "/etc/secureboot";
+                users.users.kekw = {
+                  isNormalUser = true;
+                  home = "/home/kekw"; # Correct field
                 };
+
+                home-manager.users.kekw = import ./home-iso.nix;
               }
             )
-
           ];
         };
 
