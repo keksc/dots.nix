@@ -67,6 +67,7 @@
     stb
     gnumake
     gcc
+    gdb
     yarn # for excalidraw, temporary
 
     # # You can also create simple shell scripts directly inside your

@@ -19,7 +19,6 @@
       # optional, but recommended so it shares system libraries, and improves startup time
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -29,7 +28,6 @@
       home-manager,
       lanzaboote,
       zen-browser,
-      nixos,
       ...
     }:
     let
@@ -39,32 +37,6 @@
     in
     {
       nixosConfigurations = {
-        iso = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./configuration-iso.nix
-            (
-              { pkgs, modulesPath, ... }:
-              {
-                imports = [
-                  "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-
-                  home-manager.nixosModules.home-manager
-                ];
-
-                environment.systemPackages = [ pkgs.neovim ];
-
-                users.users.kekw = {
-                  isNormalUser = true;
-                  home = "/home/kekw"; # Correct field
-                };
-
-                home-manager.users.kekw = import ./home-iso.nix;
-              }
-            )
-          ];
-        };
-
         nixos = lib.nixosSystem {
           inherit system;
           modules = [
