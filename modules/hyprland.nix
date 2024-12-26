@@ -142,6 +142,10 @@
         "ignorezero,notifications"
         "blur,logout_dialog"
       ];
+      monitor = [
+        "DP-1, preferred, auto, auto"
+        ", preferred, auto, 1"
+      ];
     };
   };
 }
