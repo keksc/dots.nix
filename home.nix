@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -35,7 +40,9 @@
 
     libnotify
     timg # image, pdf and video viewer
-    musikcube # music player
+    cmus
+
+    gnuplot
 
     wl-clipboard
 
@@ -46,6 +53,7 @@
     helvum
 
     # nvim
+    neovim
     nixfmt-rfc-style
     lua-language-server
     ripgrep
@@ -71,6 +79,8 @@
     yarn # for excalidraw, temporary
     nodejs
     qalculate-qt
+
+    inputs.zen-browser.packages."${pkgs.system}".default
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -140,6 +150,7 @@
     };
   };
   programs.btop.enable = true;
+  programs.mpv.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

@@ -12,8 +12,8 @@
 
         modules-left = [
           "clock"
-          "custom/sep"
-          "custom/wf-recorder"
+          #"custom/sep"
+          #"custom/wf-recorder"
         ];
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [

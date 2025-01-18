@@ -29,7 +29,7 @@
       lanzaboote,
       zen-browser,
       ...
-    }:
+    }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -49,7 +49,6 @@
                 environment.systemPackages = [
                   # For debugging and troubleshooting Secure Boot.
                   pkgs.sbctl
-                  zen-browser.packages.${pkgs.system}.default
                 ];
 
                 # Lanzaboote currently replaces the systemd-boot module.
@@ -70,6 +69,7 @@
       homeConfigurations = {
         kekw = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
+          extraSpecialArgs = { inherit inputs; };
           modules = [ ./home.nix ];
         };
       };
