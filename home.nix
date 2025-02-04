@@ -151,6 +151,19 @@
   };
   programs.btop.enable = true;
   programs.mpv.enable = true;
+  programs.cava = {
+    enable = true;
+    settings = {
+      general.framerate = 60;
+      input.method = "pipewire";
+      smoothing.noise_reduction = 88;
+      color = {
+        background = "'#1C2433'";
+        foreground = "'#FFFFFF'";
+      };
+    };
+  };
+  services.ollama.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

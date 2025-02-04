@@ -25,29 +25,28 @@ in
   ];
 
   boot = {
-    plymouth = {
-      enable = true;
-      theme = "lone";
-      themePackages = with pkgs; [
-        # By default we would install all themes
-        (adi1090x-plymouth-themes.override {
-          selected_themes = [
-            "rings"
-            "rings_2"
-            "circle"
-            "cuts"
-            "cuts_alt"
-            "dark_planet"
-            "deus_ex"
-            "hexagon_dots_alt"
-            "hud_3"
-            "lone"
-            "metal_ball"
-          ];
-        })
-      ];
-    };
-
+    #plymouth = {
+    #  enable = true;
+    #  theme = "lone";
+    #  themePackages = with pkgs; [
+    #    # By default we would install all themes
+    #    (adi1090x-plymouth-themes.override {
+    #      selected_themes = [
+    #        "rings"
+    #        "rings_2"
+    #        "circle"
+    #        "cuts"
+    #        "cuts_alt"
+    #        "dark_planet"
+    #        "deus_ex"
+    #        "hexagon_dots_alt"
+    #        "hud_3"
+    #        "lone"
+    #        "metal_ball"
+    #      ];
+    #    })
+    #  ];
+    #};
     # Enable "Silent Boot"
     consoleLogLevel = 0;
     initrd.verbose = false;
@@ -59,6 +58,7 @@ in
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"
+      "acpi_enforce_resources=lax"
     ];
     # Hide the OS choice for bootloaders.
     # It's still possible to open the bootloader list by pressing any key
@@ -144,7 +144,13 @@ in
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  services.ratbagd.enable = true;
+  #services.ratbagd.enable = true;
+  services.hardware.openrgb = {
+    enable = true;
+    motherboard = "intel";
+    package = pkgs.openrgb-with-all-plugins; # enable all plugins
+  };
+  users.groups.i2c.members = [ "kekw" ];
 
   services.pipewire = {
     enable = true;
@@ -186,6 +192,7 @@ in
     nvidia-offload
     jmtpfs
     ntfs3g
+    i2c-tools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
