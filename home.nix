@@ -65,7 +65,6 @@
     vulkan-headers
     glfw
     fmt
-    tinyobjloader
     glm
     cmake
     glslang

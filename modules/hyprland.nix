@@ -108,7 +108,7 @@
         "col.inactive_border" = "rgb(090000)"; # "rgba(595959aa)");
       };
       windowrulev2 = [
-        "opacity 0.90 0.90,class:^(zen-beta)$"
+        "opacity 0.90 0.90,class:^(zen)$"
         "opacity 0.90 0.90,class:^(io.github.Qalculate.qalculate-qt)$"
         "opacity 0.90 0.90,class:^(obsidian)$"
         "opacity 0.80 0.80,class:^(kitty)$"
