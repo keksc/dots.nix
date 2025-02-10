@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "laptop with NVIDIA GPU and drivers";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.1";
+      url = "github:nix-community/lanzaboote/v0.4.2";
 
       # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,8 +47,6 @@
               {
 
                 environment.systemPackages = [
-                  # For debugging and troubleshooting Secure Boot.
-                  pkgs.sbctl
                 ];
 
                 # Lanzaboote currently replaces the systemd-boot module.
@@ -59,7 +57,7 @@
 
                 boot.lanzaboote = {
                   enable = true;
-                  pkiBundle = "/etc/secureboot";
+                  pkiBundle = "/var/lib/sbctl";
                 };
               }
             )

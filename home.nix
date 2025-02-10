@@ -27,7 +27,6 @@
 
   home.packages = with pkgs; [
     vesktop
-    blender
     davinci-resolve
     ffmpeg
 

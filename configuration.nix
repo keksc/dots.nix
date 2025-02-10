@@ -190,9 +190,7 @@ in
   environment.systemPackages = with pkgs; [
     vim
     nvidia-offload
-    jmtpfs
     ntfs3g
-    i2c-tools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -270,4 +268,6 @@ in
 
     };
   };
+
+  programs.adb.enable = true;
 }
