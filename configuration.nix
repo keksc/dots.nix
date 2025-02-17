@@ -180,7 +180,8 @@ in
     extraGroups = [
       "wheel"
       "networkmanager"
-    ]; # Enable ‘sudo’ for the user.
+      "adbusers"
+    ];
     initialPassword = "tetris";
     useDefaultShell = true;
   };

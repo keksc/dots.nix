@@ -26,10 +26,13 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    vesktop
     davinci-resolve
     ffmpeg
+    ardour
+    vital
+    vcv-rack
 
+    vesktop
     brightnessctl
     wget2
 
