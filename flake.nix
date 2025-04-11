@@ -19,6 +19,9 @@
       # optional, but recommended so it shares system libraries, and improves startup time
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    musnix = {
+      url = "github:musnix/musnix";
+    };
   };
 
   outputs =
@@ -40,6 +43,7 @@
         nixos = lib.nixosSystem {
           inherit system;
           modules = [
+            inputs.musnix.nixosModules.musnix
             ./configuration.nix
             lanzaboote.nixosModules.lanzaboote
             (
@@ -62,6 +66,7 @@
               }
             )
           ];
+          specialArgs = { inherit inputs; };
         };
         live = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";

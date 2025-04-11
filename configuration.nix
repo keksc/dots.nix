@@ -25,28 +25,28 @@ in
   ];
 
   boot = {
-    #plymouth = {
-    #  enable = true;
-    #  theme = "lone";
-    #  themePackages = with pkgs; [
-    #    # By default we would install all themes
-    #    (adi1090x-plymouth-themes.override {
-    #      selected_themes = [
-    #        "rings"
-    #        "rings_2"
-    #        "circle"
-    #        "cuts"
-    #        "cuts_alt"
-    #        "dark_planet"
-    #        "deus_ex"
-    #        "hexagon_dots_alt"
-    #        "hud_3"
-    #        "lone"
-    #        "metal_ball"
-    #      ];
-    #    })
-    #  ];
-    #};
+    plymouth = {
+     enable = true;
+     theme = "rings";
+     themePackages = with pkgs; [
+       # By default we would install all themes
+       (adi1090x-plymouth-themes.override {
+         selected_themes = [
+           "rings"
+           # "rings_2"
+           # "circle"
+           # "cuts"
+           # "cuts_alt"
+           # "dark_planet"
+           # "deus_ex"
+           # "hexagon_dots_alt"
+           # "hud_3"
+           # "lone"
+           # "metal_ball"
+         ];
+       })
+     ];
+    };
     # Enable "Silent Boot"
     consoleLogLevel = 0;
     initrd.verbose = false;
@@ -64,7 +64,7 @@ in
     # It's still possible to open the bootloader list by pressing any key
     # It will just not appear on screen unless a key is pressed
     loader = {
-      timeout = 0;
+      timeout = 5;
 
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -271,4 +271,10 @@ in
   };
 
   programs.adb.enable = true;
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
 }

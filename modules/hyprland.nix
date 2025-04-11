@@ -51,6 +51,8 @@
           "$mod SHIFT, F, fullscreen,"
           "$mod, S, togglespecialworkspace, magic"
           "$mod SHIFT, S, movetoworkspace, special:magic"
+          "$mod, T, workspace, special:magic"
+          "$mod, T, exec, kitty"
           ", PRINT, exec, hyprshot --clipboard-only -m region -s -z"
           ", mouse:279, workspace, -1"
           ", mouse:280, workspace, +1"
@@ -73,6 +75,13 @@
         );
       gestures = {
         workspace_swipe = true;
+        workspace_swipe_fingers = 3;
+        workspace_swipe_min_fingers = true;
+        workspace_swipe_distance = 900;
+        workspace_swipe_cancel_ratio = 0.3;
+        workspace_swipe_forever = true;
+        workspace_swipe_min_speed_to_force = 3;
+        workspace_swipe_direction_lock = false;
       };
       bindm = [
         "$mod, mouse:272, movewindow"
@@ -110,6 +119,7 @@
       windowrulev2 = [
         "opacity 0.90 0.90,class:^(zen)$"
         "opacity 0.90 0.90,class:^(io.github.Qalculate.qalculate-qt)$"
+        "opacity 0.90 0.90,class:^(resolve)$"
         "opacity 0.90 0.90,class:^(obsidian)$"
         "opacity 0.80 0.80,class:^(kitty)$"
         "opacity 0.80 0.80,class:^(qt5ct)$"

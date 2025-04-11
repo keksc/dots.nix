@@ -30,7 +30,6 @@
     ffmpeg
     ardour
     vital
-    vcv-rack
 
     vesktop
     brightnessctl
@@ -50,7 +49,11 @@
 
     unzip
 
+    krita
+  
     android-studio
+
+    qalculate-gtk
 
     helvum
 
@@ -69,17 +72,26 @@
     fmt
     glm
     cmake
-    glslang
+    shaderc
     openal
     clang-tools
     cmake-language-server
     stb
-    gnumake
+    simdjson
+    curl
     gcc
     gdb
-    yarn # for excalidraw, temporary
+    gfxreconstruct
+    fftwFloat
+
+    renderdoc
+
+    cloc
+
+    pnpm
     nodejs
-    qalculate-qt
+
+    sioyek
 
     inputs.zen-browser.packages."${pkgs.system}".default
 
