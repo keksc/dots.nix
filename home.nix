@@ -30,6 +30,7 @@
     ffmpeg
     ardour
     vital
+    blender
 
     vesktop
     brightnessctl
@@ -50,7 +51,7 @@
     unzip
 
     krita
-  
+
     android-studio
 
     qalculate-gtk

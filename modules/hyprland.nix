@@ -56,6 +56,10 @@
           ", PRINT, exec, hyprshot --clipboard-only -m region -s -z"
           ", mouse:279, workspace, -1"
           ", mouse:280, workspace, +1"
+          "$mod, H, movefocus, l"
+          "$mod, L, movefocus, r"
+          "$mod, K, movefocus, u"
+          "$mod, L, movefocus, d"
         ]
         ++ (
           # workspaces
@@ -119,6 +123,7 @@
       windowrulev2 = [
         "opacity 0.90 0.90,class:^(zen)$"
         "opacity 0.90 0.90,class:^(io.github.Qalculate.qalculate-qt)$"
+        "opacity 0.80 0.80,class:^(sioyek)$"
         "opacity 0.90 0.90,class:^(resolve)$"
         "opacity 0.90 0.90,class:^(obsidian)$"
         "opacity 0.80 0.80,class:^(kitty)$"
