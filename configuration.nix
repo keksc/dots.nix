@@ -25,49 +25,33 @@ in
   ];
 
   boot = {
-    plymouth = {
-     enable = true;
-     theme = "rings";
-     themePackages = with pkgs; [
-       # By default we would install all themes
-       (adi1090x-plymouth-themes.override {
-         selected_themes = [
-           "rings"
-           # "rings_2"
-           # "circle"
-           # "cuts"
-           # "cuts_alt"
-           # "dark_planet"
-           # "deus_ex"
-           # "hexagon_dots_alt"
-           # "hud_3"
-           # "lone"
-           # "metal_ball"
-         ];
-       })
-     ];
+    initrd = {
+      verbose = false;
+      # compression = "zstd"; # instead of gzip
+      # enableModuleDependency = false; # don’t auto-scan everything
+      # kernelModules = lib.mkForce [
+      #   # start with only what you actually need
+      #   "nvme" # your root disk
+      #   "xhci_pci" # USB
+      #   "ahci" # SATA (if you have it)
+      #   "ext4" # or btrfs, whichever fs you use
+      #   "i915" # Intel iGPU (if applicable)
+      #   # …add any others you saw in `lsinitrd` for your real hardware…
+      # ];
     };
-    # Enable "Silent Boot"
-    consoleLogLevel = 0;
-    initrd.verbose = false;
     kernelParams = [
       "quiet"
-      "splash"
-      "boot.shell_on_fail"
       "loglevel=3"
-      "rd.systemd.show_status=false"
+      "systemd.show_status=auto"
       "rd.udev.log_level=3"
-      "udev.log_priority=3"
-      "acpi_enforce_resources=lax"
     ];
     # Hide the OS choice for bootloaders.
     # It's still possible to open the bootloader list by pressing any key
     # It will just not appear on screen unless a key is pressed
     loader = {
-      timeout = 5;
-
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      timeout = 0;
     };
   };
 
@@ -75,6 +59,7 @@ in
 
   boot.blacklistedKernelModules = [ "nouveau" ];
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.enable = false;
 
   hardware.nvidia = {
 
@@ -123,9 +108,14 @@ in
   ];
 
   networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
-  # Set your time zone.
+  services.journald.extraConfig = ''
+    SystemMaxUse=50M
+    RuntimeMaxUse=10M
+  '';
+
   time.timeZone = "Europe/Paris";
 
   # Configure network proxy if necessary
@@ -145,31 +135,26 @@ in
   # services.printing.enable = true;
 
   #services.ratbagd.enable = true;
-  services.hardware.openrgb = {
-    enable = true;
-    motherboard = "intel";
-    package = pkgs.openrgb-with-all-plugins; # enable all plugins
-  };
-  users.groups.i2c.members = [ "kekw" ];
 
   services.pipewire = {
     enable = true;
     pulse.enable = true;
   };
 
-  services.displayManager = {
-    autoLogin = {
-      enable = true;
-      user = "kekw";
-    };
-    sddm = {
-      enable = true;
-      wayland.enable = true;
+  services.greetd = {
+    enable = true;
+    vt = 1;
+    settings = {
+      default_session = {
+        command = "Hyprland";
+        user = "kekw";
+      };
+      initial_session = {
+        command = "Hyprland";
+        user = "kekw";
+      };
     };
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
 
   environment.shells = [ pkgs.fish ];
   users.defaultUserShell = pkgs.fish;
@@ -246,6 +231,8 @@ in
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
 
+  networking.firewall.enable = false;
+
   # power mgmt
   powerManagement.enable = true;
   services.thermald.enable = true;
@@ -269,6 +256,13 @@ in
 
     };
   };
+  systemd.services.tlp.wantedBy = lib.mkForce [ ];
+
+  systemd.services.audit.serviceConfig = {
+    Mask = true;
+  };
+  systemd.services."modprobe@drm.service".enable = false;
+  systemd.services."modprobe@configfs.service".enable = false;
 
   programs.adb.enable = true;
 

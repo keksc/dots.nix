@@ -22,6 +22,7 @@
       };
       misc = {
         disable_hyprland_logo = true;
+        enable_anr_dialog = false;
       };
       animations = {
         enabled = true;
@@ -107,7 +108,6 @@
       ];
       cursor = {
         no_hardware_cursors = true;
-        enable_hyprcursor = false;
       };
       exec-once = [
         "waybar"

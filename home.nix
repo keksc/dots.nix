@@ -32,6 +32,9 @@
     vital
     blender
     unityhub
+    pwvucontrol
+
+    television
 
     vesktop
     brightnessctl
@@ -144,7 +147,6 @@
     ./modules/dunst.nix
     ./modules/git.nix
     ./modules/fish.nix
-    ./modules/gtk.nix
     ./modules/wofi.nix
     ./modules/kitty.nix
     ./modules/hyprland.nix
@@ -178,6 +180,7 @@
       };
     };
   };
+
   home.pointerCursor = {
     gtk.enable = true;
     # x11.enable = true;
@@ -203,6 +206,21 @@
       name = "Sans";
       size = 11;
     };
+  };
+
+  services.home-manager.autoExpire = {
+    enable = true;
+    frequency = "monthly";
+    timestamp = "-30 days";
+    store = {
+      cleanup = true;
+      options = "--delete-older-than 30d";
+    };
+  };
+
+  services.home-manager.autoUpgrade = {
+    enable = true;
+    frequency = "monthly";
   };
 
   # Let Home Manager install and manage itself.

@@ -34,17 +34,17 @@
           placeholder_text = "<span foreground=\"##cdd6f4\">Password...</span>";
         }
       ];
-      label = [
-        {
-          text = "cmd[update:1000] echo \"$(whoami)\"";
-          color = "#cdd6f4";
-          font_size = 14;
-          font_family = "JetBrains Mono";
-          position = "0, -450";
-          halign = "center";
-          valign = "top";
-        }
-      ];
+      # label = [
+      #   {
+      #     text = "cmd[update:1000] echo \"#$(whoami)\"";
+      #     color = "#cdd6f4";
+      #     font_size = 14;
+      #     font_family = "JetBrains Mono";
+      #     position = "0, -450";
+      #     halign = "center";
+      #     valign = "top";
+      #   }
+      # ];
       image = [
         {
           path = "${./assets/thecat.png}";
