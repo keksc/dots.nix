@@ -228,9 +228,6 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
-
   networking.firewall.enable = false;
 
   # power mgmt
