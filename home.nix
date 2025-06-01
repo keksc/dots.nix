@@ -30,8 +30,8 @@
     ffmpeg
     ardour
     vital
+    vlc
     blender
-    unityhub
     pwvucontrol
 
     television
@@ -55,6 +55,7 @@
     unzip
 
     krita
+    inkscape
 
     android-studio
 
