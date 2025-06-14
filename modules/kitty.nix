@@ -14,6 +14,8 @@
       "kitty_mod+f1" = "show_kitty_doc overview";
     };
     settings = {
+      allow_remote_control = "socket-only";
+      listen_on = "unix:/tmp/kitty";
       window_padding_width = 25;
 
       foreground = "#CDD6F4";

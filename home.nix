@@ -30,10 +30,10 @@
     ffmpeg
     ardour
     vital
-    vlc
     blender
     pwvucontrol
 
+    nemo
     television
 
     vesktop
@@ -99,6 +99,8 @@
 
     sioyek
 
+    swaybg
+
     inputs.zen-browser.packages."${pkgs.system}".default
 
     # # You can also create simple shell scripts directly inside your
@@ -145,7 +147,7 @@
   };
 
   imports = [
-    ./modules/dunst.nix
+    # ./modules/dunst.nix
     ./modules/git.nix
     ./modules/fish.nix
     ./modules/wofi.nix
@@ -154,8 +156,11 @@
     ./modules/waybar.nix
     ./modules/wlogout.nix
     ./modules/hyprlock.nix
-    ./modules/hyprpaper.nix
   ];
+
+  programs.fuzzel = {
+    enable = true;
+  };
 
   xdg = {
     enable = true;
@@ -165,6 +170,7 @@
       music = "${config.home.homeDirectory}/music";
       videos = "${config.home.homeDirectory}/videos";
       documents = "${config.home.homeDirectory}/docs";
+      pictures = "${config.home.homeDirectory}/images";
     };
   };
   programs.btop.enable = true;
@@ -181,6 +187,8 @@
       };
     };
   };
+
+  programs.swaylock.enable = true;
 
   home.pointerCursor = {
     gtk.enable = true;

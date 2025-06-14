@@ -4,8 +4,9 @@
     settings = {
       "$mod" = "SUPER";
       input = {
-        kb_layout = "us";
-        kb_variant = "colemak";
+        kb_layout = "us,fr";
+        kb_variant = "colemak,azerty";
+        kb_options = "grp:alt_space_toggle";
         touchpad = {
           natural_scroll = true;
           disable_while_typing = false;
@@ -36,7 +37,7 @@
           "border, 1, 10, default"
           "borderangle, 1, 8, default"
           "fade, 1, 7, default"
-          "workspaces, 1, 6, default"
+          "workspaces, 1, 6, default" 
         ];
       };
       bind =
@@ -121,6 +122,7 @@
         "col.inactive_border" = "rgb(090000)"; # "rgba(595959aa)");
       };
       windowrulev2 = [
+        "opacity 0.80 0.80,class:^(mpv)$"
         "opacity 0.90 0.90,class:^(zen)$"
         "opacity 0.90 0.90,class:^(io.github.Qalculate.qalculate-qt)$"
         "opacity 0.80 0.80,class:^(sioyek)$"

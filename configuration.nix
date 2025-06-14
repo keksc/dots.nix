@@ -116,6 +116,9 @@ in
     RuntimeMaxUse=10M
   '';
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   time.timeZone = "Europe/Paris";
 
   # Configure network proxy if necessary
@@ -150,7 +153,7 @@ in
         user = "kekw";
       };
       initial_session = {
-        command = "Hyprland";
+        command = "niri";
         user = "kekw";
       };
     };
@@ -222,6 +225,7 @@ in
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  programs.niri.enable = true;
   programs.hyprland.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
