@@ -15,7 +15,7 @@
           #"custom/sep"
           #"custom/wf-recorder"
         ];
-        modules-center = [ "hyprland/workspaces" ];
+        modules-center = [ /*"niri/workspaces"*/ ];
         modules-right = [
           "battery"
           "custom/sep"

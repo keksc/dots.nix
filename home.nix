@@ -33,6 +33,8 @@
     blender
     pwvucontrol
 
+    xwayland-satellite
+
     nemo
     television
 
@@ -152,10 +154,10 @@
     ./modules/fish.nix
     ./modules/wofi.nix
     ./modules/kitty.nix
-    ./modules/hyprland.nix
+    # ./modules/hyprland.nix
     ./modules/waybar.nix
     ./modules/wlogout.nix
-    ./modules/hyprlock.nix
+    # ./modules/hyprlock.nix
   ];
 
   programs.fuzzel = {

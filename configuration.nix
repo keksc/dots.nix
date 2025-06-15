@@ -116,9 +116,6 @@ in
     RuntimeMaxUse=10M
   '';
 
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
   time.timeZone = "Europe/Paris";
 
   # Configure network proxy if necessary
@@ -149,7 +146,7 @@ in
     vt = 1;
     settings = {
       default_session = {
-        command = "Hyprland";
+        command = "niri";
         user = "kekw";
       };
       initial_session = {
@@ -226,7 +223,7 @@ in
   system.stateVersion = "24.11"; # Did you read the comment?
 
   programs.niri.enable = true;
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
