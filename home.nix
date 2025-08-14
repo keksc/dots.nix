@@ -4,80 +4,104 @@
   inputs,
   ...
 }:
+let
+  # Define the taoq package
+  taoq = pkgs.stdenv.mkDerivation rec {
+    pname = "taoq";
+    version = "0.1.0";
 
+    src = pkgs.fetchFromGitHub {
+      owner = "keksc";
+      repo = "taoq";
+      rev = "ead575fd35bcb5b0547806d03fede53d8b5fce95";
+      sha256 = "1gcznn52f5n1n3diwvli718imnyyvrc64z8pjg46wxhdabc2kknl";
+    };
+
+    nativeBuildInputs = [
+      pkgs.cmake
+      pkgs.gcc
+    ];
+    buildInputs = [ pkgs.fmt ];
+
+    cmakeFlags = [
+      "-DCMAKE_BUILD_TYPE=Release"
+      "-DCMAKE_CXX_STANDARD=20"
+      "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ];
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out/bin
+      cp taoq $out/bin/
+      runHook postInstall
+    '';
+
+    meta = with pkgs.lib; {
+      description = "Misc fortunes";
+      license = licenses.mit;
+      platforms = platforms.all;
+    };
+  };
+in
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "kekw";
   home.homeDirectory = "/home/kekw";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
+  home.stateVersion = "24.05";
 
   nixpkgs.config.allowUnfree = true;
 
+  # Add overlay to make taoq available as pkgs.taoq
+  nixpkgs.overlays = [
+    (final: prev: {
+      taoq = taoq;
+    })
+  ];
+
   home.packages = with pkgs; [
-    davinci-resolve
-    ffmpeg
+    kdePackages.filelight
+
+    signal-desktop
+
+    reaper
     ardour
     vital
+    sfizz
+    guitarix
+
+    taoq
+    davinci-resolve
+    ffmpeg
+
     blender
     pwvucontrol
-
     xwayland-satellite
-
-    nemo
     television
-
     vesktop
     brightnessctl
-    wget2
-
+    # wget2
     wf-recorder
     hyprpicker
     hyprshot
-
     libnotify
-    timg # image, pdf and video viewer
+    timg
     cmus
-
     gnuplot
-
     wl-clipboard
-
     unzip
-
     krita
     inkscape
-
     android-studio
-
     qalculate-gtk
-
     helvum
-
-    # nvim
     neovim
     nixfmt-rfc-style
     lua-language-server
     ripgrep
-
-    # dev pkgs i use most
     vulkan-loader
     vulkan-validation-layers
     vulkan-tools
     vulkan-headers
     glfw
-    fmt
     glm
     cmake
     shaderc
@@ -90,62 +114,25 @@
     gcc
     gdb
     gfxreconstruct
-    fftwFloat
-
+    linuxPackages_latest.perf
+    flamegraph
     renderdoc
-
     cloc
-
     pnpm
     nodejs
-
     sioyek
-
     swaybg
-
+    osu-lazer-bin
     inputs.zen-browser.packages."${pkgs.system}".default
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    nemo
   ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
   home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    #"assets".source = ./assets;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+    # Define files as needed
   };
 
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/kekw/etc/profile.d/hm-session-vars.sh
-  #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    # Define variables as needed
   };
 
   imports = [
@@ -158,10 +145,17 @@
     ./modules/waybar.nix
     ./modules/wlogout.nix
     # ./modules/hyprlock.nix
+    ./modules/eww.nix
   ];
 
   programs.fuzzel = {
     enable = true;
+    settings = {
+      main = {
+        terminal = "${pkgs.kitty}/bin/kitty";
+      };
+      colors.background = "#da69dbe1";
+    };
   };
 
   xdg = {
@@ -174,7 +168,18 @@
       documents = "${config.home.homeDirectory}/docs";
       pictures = "${config.home.homeDirectory}/images";
     };
+    portal = {
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+      ];
+      config = {
+        common = {
+          default = "gtk";
+        };
+      };
+    };
   };
+
   programs.btop.enable = true;
   programs.mpv.enable = true;
   programs.cava = {
@@ -194,7 +199,6 @@
 
   home.pointerCursor = {
     gtk.enable = true;
-    # x11.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 16;
@@ -202,17 +206,14 @@
 
   gtk = {
     enable = true;
-
     theme = {
       package = pkgs.flat-remix-gtk;
       name = "Flat-Remix-GTK-Grey-Darkest";
     };
-
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
     };
-
     font = {
       name = "Sans";
       size = 11;
@@ -234,6 +235,5 @@
     frequency = "monthly";
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

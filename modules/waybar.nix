@@ -15,7 +15,7 @@
           #"custom/sep"
           #"custom/wf-recorder"
         ];
-        modules-center = [ /*"niri/workspaces"*/ ];
+        modules-center = [ "niri/workspaces" ];
         modules-right = [
           "battery"
           "custom/sep"
@@ -33,7 +33,7 @@
           format = "";
           tooltip = false;
         };
-        "hyprland/workspaces" = {
+        "niri/workspaces" = {
           format = "{icon}";
           on-click = "activate";
           format-icons = {

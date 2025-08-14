@@ -22,6 +22,27 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    <musnix>
+  ];
+
+  # Add overlay to make xdg-desktop-portal-gnome a no-op
+  nixpkgs.overlays = [
+    (final: prev: {
+      xdg-desktop-portal-gnome = prev.stdenv.mkDerivation {
+        name = "xdg-desktop-portal-gnome-empty";
+        version = "48.0";
+        # No source, no build, no output
+        phases = [ "installPhase" ];
+        installPhase = ''
+          mkdir -p $out
+        '';
+        meta = {
+          description = "Empty derivation to disable xdg-desktop-portal-gnome";
+          license = prev.lib.licenses.mit;
+          platforms = prev.lib.platforms.all;
+        };
+      };
+    })
   ];
 
   boot = {
@@ -55,6 +76,8 @@ in
     };
   };
 
+  musnix.enable = true;
+
   hardware.graphics.enable = true;
 
   boot.blacklistedKernelModules = [ "nouveau" ];
@@ -62,36 +85,18 @@ in
   services.xserver.enable = false;
 
   hardware.nvidia = {
-
     # Modesetting is required.
     modesetting.enable = true;
-
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-    # of just the bare essentials.
     powerManagement.enable = false;
-
     # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = true;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of
-    # supported GPUs is at:
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    # Use the NVidia open source kernel module (not to be confused with nouveau).
     open = false;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
+    # Enable the Nvidia settings menu.
     nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    # Select the appropriate driver version.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-
     prime = {
       offload = {
         enable = true;
@@ -107,7 +112,7 @@ in
     "flakes"
   ];
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
@@ -118,23 +123,18 @@ in
 
   time.timeZone = "Europe/Paris";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "colemak";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   #services.ratbagd.enable = true;
+
+  fonts.packages = with pkgs; [
+    maple-mono.NF
+    nerd-fonts.fira-code
+  ];
 
   services.pipewire = {
     enable = true;
@@ -143,14 +143,13 @@ in
 
   services.greetd = {
     enable = true;
-    vt = 1;
     settings = {
       default_session = {
-        command = "niri";
+        command = "niri --session";
         user = "kekw";
       };
       initial_session = {
-        command = "niri";
+        command = "niri --session";
         user = "kekw";
       };
     };
@@ -166,61 +165,34 @@ in
       "wheel"
       "networkmanager"
       "adbusers"
+      "audio"
     ];
     initialPassword = "tetris";
     useDefaultShell = true;
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim
     nvidia-offload
     ntfs3g
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  security.polkit.enable = true;
+  security.rtkit.enable = true;
 
-  # List services that you want to enable:
+  # Explicitly configure xdg.portal to use only xdg-desktop-portal-gtk
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config = {
+      common = {
+        default = "gtk";
+      };
+    };
+  };
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "24.11"; # Did you read the comment?
+  # Some programs need SUI
+  system.stateVersion = "24.11";
 
   programs.niri.enable = true;
   # programs.hyprland.enable = true;
@@ -231,7 +203,7 @@ in
 
   networking.firewall.enable = false;
 
-  # power mgmt
+  # Power management
   powerManagement.enable = true;
   services.thermald.enable = true;
   services.tlp = {
@@ -239,19 +211,14 @@ in
     settings = {
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
       CPU_MIN_PERF_ON_AC = 0;
       CPU_MAX_PERF_ON_AC = 100;
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 20;
-
-      #Optional helps save long term battery health
-      START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 80;
     };
   };
   systemd.services.tlp.wantedBy = lib.mkForce [ ];
@@ -263,6 +230,13 @@ in
   systemd.services."modprobe@configfs.service".enable = false;
 
   programs.adb.enable = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   nix.gc = {
     automatic = true;

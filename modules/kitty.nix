@@ -17,6 +17,7 @@
       allow_remote_control = "socket-only";
       listen_on = "unix:/tmp/kitty";
       window_padding_width = 25;
+      hide_window_decorations = true;
 
       foreground = "#CDD6F4";
       background = "#1C2433";
