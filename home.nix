@@ -78,7 +78,7 @@ in
     television
     vesktop
     brightnessctl
-    # wget2
+    wget2
     wf-recorder
     hyprpicker
     hyprshot
@@ -141,6 +141,7 @@ in
     ./modules/fish.nix
     ./modules/wofi.nix
     ./modules/kitty.nix
+    ./modules/niri.nix
     # ./modules/hyprland.nix
     ./modules/waybar.nix
     ./modules/wlogout.nix
