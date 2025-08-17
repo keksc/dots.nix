@@ -1,0 +1,30 @@
+(defwindow battery
+  :monitor 0
+  :geometry (geometry :y "2%" :anchor "top center")
+  :stacking "bg"
+  :windowtype "normal"
+  (box
+    :class "battery-container"
+    :space-evenly false
+    (battery)
+    (label
+      :halign "start"
+      :class "battery-label"
+      :text "${EWW_BATTERY.BAT0.capacity}%")
+  )
+)
+(defwidget battery []
+  (overlay
+    :class "battery-overlay"
+    (image
+      :path "/home/kekw/.dotfiles/modules/assets/battery-outside.png")
+    (image
+      :class "battery-inside"
+      :path "/home/kekw/.dotfiles/modules/assets/battery-inside.png"
+      :image-width "${floor(691 * EWW_BATTERY.BAT0.capacity / 100)}"
+      :preserve-aspect-ratio false
+      ; :halign "start"
+      ; :css ".battery-inside {opacity: ${EWW_BATTERY.BAT0.capacity / 100};}"
+      )
+  )
+)

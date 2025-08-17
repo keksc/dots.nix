@@ -1,0 +1,11 @@
+.battery-label {
+  margin-left: 10px;
+  font-size: 24px;
+  font-family: JetBrainsMono Nerd Font;
+}
+
+.battery {
+  &.background {
+    background: none;
+  }
+}
