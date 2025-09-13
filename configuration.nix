@@ -20,45 +20,12 @@ let
 in
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    <musnix>
-  ];
-
-  # Add overlay to make xdg-desktop-portal-gnome a no-op
-  nixpkgs.overlays = [
-    (final: prev: {
-      xdg-desktop-portal-gnome = prev.stdenv.mkDerivation {
-        name = "xdg-desktop-portal-gnome-empty";
-        version = "48.0";
-        # No source, no build, no output
-        phases = [ "installPhase" ];
-        installPhase = ''
-          mkdir -p $out
-        '';
-        meta = {
-          description = "Empty derivation to disable xdg-desktop-portal-gnome";
-          license = prev.lib.licenses.mit;
-          platforms = prev.lib.platforms.all;
-        };
-      };
-    })
   ];
 
   boot = {
     initrd = {
       verbose = false;
-      # compression = "zstd"; # instead of gzip
-      # enableModuleDependency = false; # don’t auto-scan everything
-      # kernelModules = lib.mkForce [
-      #   # start with only what you actually need
-      #   "nvme" # your root disk
-      #   "xhci_pci" # USB
-      #   "ahci" # SATA (if you have it)
-      #   "ext4" # or btrfs, whichever fs you use
-      #   "i915" # Intel iGPU (if applicable)
-      #   # …add any others you saw in `lsinitrd` for your real hardware…
-      # ];
     };
     kernelParams = [
       "quiet"
@@ -66,9 +33,6 @@ in
       "systemd.show_status=auto"
       "rd.udev.log_level=3"
     ];
-    # Hide the OS choice for bootloaders.
-    # It's still possible to open the bootloader list by pressing any key
-    # It will just not appear on screen unless a key is pressed
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -85,17 +49,11 @@ in
   services.xserver.enable = false;
 
   hardware.nvidia = {
-    # Modesetting is required.
     modesetting.enable = true;
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
     powerManagement.finegrained = true;
-    # Use the NVidia open source kernel module (not to be confused with nouveau).
     open = false;
-    # Enable the Nvidia settings menu.
     nvidiaSettings = true;
-    # Select the appropriate driver version.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     prime = {
       offload = {
@@ -126,14 +84,10 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "colemak";
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  #services.ratbagd.enable = true;
-
   fonts.packages = with pkgs; [
-    maple-mono.NF
     nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    font-awesome
   ];
 
   services.pipewire = {
@@ -175,35 +129,55 @@ in
     vim
     nvidia-offload
     ntfs3g
+    alsa-utils
+    gnome-themes-extra
   ];
 
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
-  # Explicitly configure xdg.portal to use only xdg-desktop-portal-gtk
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config = {
-      common = {
-        default = "gtk";
-      };
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
+    ];
+  };
+
+  systemd.user.services.xdg-desktop-portal-gnome = {
+    description = "Portal service (GNOME implementation)";
+    partOf = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    environment = {
+      GTK_THEME = "Adwaita";
+      WAYLAND_DISPLAY = "wayland-0";
+    };
+    serviceConfig = {
+      ExecStart = "${pkgs.xdg-desktop-portal-gnome}/libexec/xdg-desktop-portal-gnome";
+      Restart = "on-failure";
     };
   };
 
-  # Some programs need SUI
+  systemd.user.services.xdg-desktop-portal = {
+    wants = [
+      "xdg-desktop-portal-gtk.service"
+      "xdg-desktop-portal-gnome.service"
+    ];
+    after = [
+      "xdg-desktop-portal-gtk.service"
+      "xdg-desktop-portal-gnome.service"
+    ];
+  };
+
   system.stateVersion = "24.11";
 
   programs.niri.enable = true;
-  # programs.hyprland.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  nixpkgs.config.allowUnfree = true;
-
   networking.firewall.enable = false;
 
-  # Power management
   powerManagement.enable = true;
   services.thermald.enable = true;
   services.tlp = {
@@ -243,4 +217,6 @@ in
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+
+  nixpkgs.config.allowUnfree = true;
 }

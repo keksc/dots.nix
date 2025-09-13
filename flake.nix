@@ -9,18 +9,15 @@
     };
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.2";
-
-      # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
-
-      # optional, but recommended so it shares system libraries, and improves startup time
       inputs.nixpkgs.follows = "nixpkgs";
     };
     musnix = {
       url = "github:musnix/musnix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
