@@ -48,30 +48,17 @@ in
   home.homeDirectory = "/home/kekw";
   home.stateVersion = "24.05";
 
-  nixpkgs.config.allowUnfree = true;
-
-  # Add overlay to make taoq available as pkgs.taoq
-  nixpkgs.overlays = [
-    (final: prev: {
-      taoq = taoq;
-    })
-  ];
-
   home.packages = with pkgs; [
+    prismlauncher
     kdePackages.filelight
-
     signal-desktop
-
     reaper
     ardour
     vital
     sfizz
     guitarix
-
     taoq
-    davinci-resolve
     ffmpeg
-
     blender
     pwvucontrol
     xwayland-satellite
@@ -104,17 +91,17 @@ in
     glfw
     glm
     cmake
+    cmake-language-server
     shaderc
     openal
     clang-tools
-    cmake-language-server
     stb
     simdjson
     curl
     gcc
     gdb
     gfxreconstruct
-    linuxPackages_latest.perf
+    perf
     flamegraph
     renderdoc
     cloc
@@ -125,27 +112,32 @@ in
     osu-lazer-bin
     inputs.zen-browser.packages."${pkgs.system}".default
     nemo
+    gnome-themes-extra
   ];
 
   home.file = {
     # Define files as needed
   };
 
-  home.sessionVariables = {
-    # Define variables as needed
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      ui = {
+        editor = "nvim";
+        diff-editor = "nvim";
+      };
+    };
   };
+  programs.jjui.enable = true;
 
   imports = [
-    # ./modules/dunst.nix
     ./modules/git.nix
     ./modules/fish.nix
     ./modules/wofi.nix
     ./modules/kitty.nix
     ./modules/niri.nix
-    # ./modules/hyprland.nix
     ./modules/waybar.nix
     ./modules/wlogout.nix
-    # ./modules/hyprlock.nix
     ./modules/eww.nix
   ];
 
@@ -161,6 +153,12 @@ in
 
   xdg = {
     enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = "sioyek.desktop";
+      };
+    };
     userDirs = {
       enable = true;
       download = "${config.home.homeDirectory}/dwl";
@@ -168,16 +166,6 @@ in
       videos = "${config.home.homeDirectory}/videos";
       documents = "${config.home.homeDirectory}/docs";
       pictures = "${config.home.homeDirectory}/images";
-    };
-    portal = {
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-      ];
-      config = {
-        common = {
-          default = "gtk";
-        };
-      };
     };
   };
 
@@ -208,8 +196,8 @@ in
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.flat-remix-gtk;
-      name = "Flat-Remix-GTK-Grey-Darkest";
+      package = pkgs.gnome-themes-extra;
+      name = "Adwaita-dark";
     };
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
@@ -235,6 +223,7 @@ in
     enable = true;
     frequency = "monthly";
   };
+  nixpkgs.config.allowUnfree = true;
 
   programs.home-manager.enable = true;
 }

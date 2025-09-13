@@ -1,30 +1,3 @@
-(defwindow battery
-  :monitor 0
-  :geometry (geometry :y "2%" :anchor "top center")
-  :stacking "bg"
-  :windowtype "normal"
-  (box
-    :space-evenly false
-    (battery)
-    (label
-      :halign "start"
-      :class "battery-label"
-      :markup "${EWW_BATTERY.BAT0.capacity}%")
-  )
-)
-(defwidget battery []
-  (overlay
-    (image
-      :path "/home/kekw/.dotfiles/modules/assets/battery-outside.png")
-    (image
-      :path "/home/kekw/.dotfiles/modules/assets/battery-inside.png"
-      :image-width "${floor(691 * EWW_BATTERY.BAT0.capacity / 100)}"
-      :preserve-aspect-ratio false
-      ; :halign "start"
-      ; :css ".battery-inside {opacity: ${EWW_BATTERY.BAT0.capacity / 100};}"
-      )
-  )
-)
 ;; Created   by https://github.com/rxyhn
 ;; Designed  by https://github.com/rxyhn
 ;; Maintaned by https://github.com/rxyhn
@@ -231,7 +204,7 @@
 	:monitor 0
 	:reserve (struts :distance "35px" 
 					 :side "left")
-  :exclusive true
+	:wm-ignore false
 	:hexpand "false"
 	:vexpand "false"
 (bar))

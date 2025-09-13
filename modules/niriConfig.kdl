@@ -206,6 +206,7 @@ layout {
 
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/kekw/.dotfiles/modules/assets/yandere.png"
+spawn-at-startup "eww" "open-many" "battery" "bar"
 
 spawn-at-startup "xwayland-satellite"
 
