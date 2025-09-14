@@ -1,11 +1,40 @@
+* {
+  font-family: JetBrainsMono Nerd Font;
+  // background: #171926;
+}
+
 .battery-label {
   margin-left: 10px;
   font-size: 24px;
-  font-family: JetBrainsMono Nerd Font;
 }
 
 .battery {
   &.background {
     background: none;
   }
+}
+.bar {
+  &.background {
+    background: none;
+  }
+}
+.time {
+  margin-top: 12px;
+  padding: 10px;
+  color: #8bd5ca;
+  border-radius: 7px;
+}
+// Define color variables
+.workspace {
+  color: #5b6078;
+
+  &.active {
+    color: #f5bde6;
+  }
+  &.urgent {
+    color: #7f1405;
+  }
+}
+.volume {
+  color: #fffaf6;
 }

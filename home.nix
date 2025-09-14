@@ -113,6 +113,7 @@ in
     inputs.zen-browser.packages."${pkgs.system}".default
     nemo
     gnome-themes-extra
+    jq
   ];
 
   home.file = {
