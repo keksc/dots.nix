@@ -1,0 +1,80 @@
+(defwindow battery
+  :monitor 0
+  :geometry (geometry :y "2%" :anchor "top center")
+  :stacking "bg"
+  (box
+    :space-evenly false
+    (battery)
+    (label
+      :halign "start"
+      :class "battery-label"
+      :markup "${EWW_BATTERY.BAT0.capacity}%")
+  )
+)
+
+(defwidget battery []
+  (overlay
+    (image
+      :path "/home/kekw/.dotfiles/modules/assets/battery-outside.png")
+    (image
+      :path "/home/kekw/.dotfiles/modules/assets/battery-inside.png"
+      :image-width "${floor(691 * EWW_BATTERY.BAT0.capacity / 100)}"
+      :preserve-aspect-ratio false
+      )
+  )
+)
+
+(defwindow bar
+  :geometry (geometry :height "100%" :anchor "left center")
+  :exclusive true
+  :monitor 0
+  (box
+    :orientation "v"
+    (time)
+    (workspaces)
+    (volume)
+    (box
+      :orientation "v"
+      (pick-color-button)
+    )
+  )
+)
+
+(defwidget time []
+  (box
+    :class "time"
+    :orientation "v"
+    :spacing 3
+    :space-evenly false
+    :height "wrap"
+    "${formattime(EWW_TIME, "%H")}"
+    "${formattime(EWW_TIME, "%M")}"
+  )
+)
+
+(defwidget workspace [ws]
+  (button
+    :class "workspace${ws.is_active ? ' active' : ''}${ws.is_urgent ? ' urgent' : ''}"
+    :onclick "niri msg action focus-workspace ${ws.id}"
+    (label
+      :text "${ws.is_active ? '' : (ws.is_urgent ? '' : '')}" )))
+
+(defwidget workspaces []
+  (box
+    :orientation "v"
+    (for ws in workspaces
+      (workspace :ws ws))))
+
+(defwidget volume []
+  (circular-progress
+    :value volume
+    :start-at 75
+    :class "volume"))
+
+(defwidget pick-color-button []
+  (button
+    :onclick "./pick_color.sh"
+    ""))
+
+(deflisten volume "./monitor_volume.sh")
+(deflisten workspaces "./monitor_workspaces.sh")
